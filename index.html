@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Jetton Bonus | Links</title>
+
   <style>
     :root {
       --lime: #aaff00;
@@ -16,7 +17,11 @@
       --shadow: 0 16px 0 var(--lime-dark), 0 28px 52px rgba(0, 0, 0, 0.55);
     }
 
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
     body {
       min-height: 100vh;
@@ -43,19 +48,6 @@
       background-position: 18px 12px, 0 40px;
     }
 
-    body::after {
-      content: "";
-      position: fixed;
-      inset: auto auto 22px -80px;
-      width: 260px;
-      height: 58px;
-      border-radius: 999px;
-      background: rgba(170,255,0,.18);
-      transform: rotate(-18deg);
-      pointer-events: none;
-      box-shadow: 1120px -740px 0 rgba(170,255,0,.16), 1020px 30px 0 rgba(170,255,0,.18);
-    }
-
     .captcha-screen {
       position: fixed;
       inset: 0;
@@ -65,7 +57,7 @@
       padding: 20px;
       background:
         radial-gradient(circle at top, rgba(170,255,0,.34), transparent 34%),
-        rgba(0,0,0,.92);
+        rgba(0,0,0,.94);
       transition: opacity .35s ease, visibility .35s ease;
     }
 
@@ -76,7 +68,7 @@
     }
 
     .captcha-box {
-      width: min(440px, 100%);
+      width: min(450px, 100%);
       padding: 28px;
       border: 5px solid var(--lime);
       border-radius: 34px;
@@ -97,37 +89,48 @@
       line-height: 1.4;
     }
 
-    .captcha-task {
-      display: grid;
-      gap: 14px;
-      margin-bottom: 16px;
+    .captcha-circle {
+      position: relative;
+      width: 220px;
+      height: 220px;
+      margin: 0 auto 18px;
+      border-radius: 50%;
+      border: 5px solid var(--lime);
+      background: var(--white);
+      overflow: hidden;
+      box-shadow: 0 10px 0 var(--lime-dark), 0 20px 34px rgba(0,0,0,.42);
     }
 
-    .captcha-code {
-      padding: 16px;
-      border: 4px solid var(--white);
-      border-radius: 22px;
-      background: var(--lime);
-      color: #000;
-      font-size: 34px;
-      font-weight: 950;
-      letter-spacing: 8px;
-      user-select: none;
-      box-shadow: 0 8px 0 var(--lime-dark);
+    .captcha-half {
+      position: absolute;
+      inset: 0;
+      transform-origin: center center;
+      transition: transform .12s linear;
     }
 
-    .captcha-input {
+    .captcha-half img {
       width: 100%;
-      height: 58px;
-      border: 3px solid var(--lime);
-      border-radius: 18px;
-      background: #000;
-      color: var(--white);
-      text-align: center;
-      font-size: 24px;
-      font-weight: 900;
-      outline: none;
-      text-transform: uppercase;
+      height: 100%;
+      object-fit: contain;
+      padding: 36px;
+      user-select: none;
+      pointer-events: none;
+    }
+
+    .captcha-top {
+      clip-path: inset(0 0 50% 0);
+      border-bottom: 2px dashed rgba(0,0,0,.22);
+    }
+
+    .captcha-bottom {
+      clip-path: inset(50% 0 0 0);
+    }
+
+    .captcha-slider {
+      width: 100%;
+      accent-color: var(--lime);
+      margin: 8px 0 18px;
+      cursor: pointer;
     }
 
     .captcha-btn {
@@ -142,6 +145,16 @@
       text-transform: uppercase;
       cursor: pointer;
       box-shadow: 0 8px 0 var(--lime-dark);
+      transition: transform .18s ease, filter .18s ease;
+    }
+
+    .captcha-btn:hover {
+      transform: translateY(-4px) scale(1.01);
+      filter: saturate(1.14);
+    }
+
+    .captcha-btn:active {
+      transform: translateY(4px);
     }
 
     .captcha-error {
@@ -281,15 +294,13 @@
     }
 
     .social-btn:hover,
-    .main-cta:hover,
-    .captcha-btn:hover {
+    .main-cta:hover {
       transform: translateY(-4px) scale(1.01);
       filter: saturate(1.14);
     }
 
     .social-btn:active,
-    .main-cta:active,
-    .captcha-btn:active {
+    .main-cta:active {
       transform: translateY(4px);
     }
 
@@ -321,7 +332,9 @@
       letter-spacing: -.5px;
     }
 
-    .copy span { color: var(--lime); }
+    .copy span {
+      color: var(--lime);
+    }
 
     .legal {
       text-align: center;
@@ -343,21 +356,35 @@
         gap: 12px;
         padding: 12px;
       }
-      .icon, .arrow { width: 48px; height: 48px; border-radius: 15px; font-size: 28px; }
+      .icon, .arrow {
+        width: 48px;
+        height: 48px;
+        border-radius: 15px;
+        font-size: 28px;
+      }
       .captcha-box { padding: 22px 16px; }
+      .captcha-circle { width: 190px; height: 190px; }
     }
   </style>
 </head>
+
 <body>
   <div class="captcha-screen" id="captchaScreen">
     <div class="captcha-box">
       <h1>Проверка</h1>
-      <p>Введите код, чтобы открыть бонусный лендинг Jetton.</p>
-      <div class="captcha-task">
-        <div class="captcha-code" id="captchaCode">J7T</div>
-        <input class="captcha-input" id="captchaInput" type="text" inputmode="text" autocomplete="off" placeholder="КОД" />
+      <p>Соедини две части картинки. Поверни нижнюю часть самолёта так, чтобы изображение стало цельным.</p>
+
+      <div class="captcha-circle" aria-label="Круговая капча">
+        <div class="captcha-half captcha-top">
+          <img src="samolet.png" alt="captcha top" />
+        </div>
+        <div class="captcha-half captcha-bottom" id="captchaBottom">
+          <img src="samolet.png" alt="captcha bottom" />
+        </div>
       </div>
-      <button class="captcha-btn" id="captchaBtn">Открыть лендинг</button>
+
+      <input class="captcha-slider" id="captchaSlider" type="range" min="0" max="360" value="0" />
+      <button class="captcha-btn" id="captchaBtn">Подтвердить</button>
       <div class="captcha-error" id="captchaError"></div>
     </div>
   </div>
@@ -400,56 +427,44 @@
   </main>
 
   <script>
-    // === ROTATION CAPTCHA ===
-const captchaScreen = document.getElementById('captchaScreen');
-const captchaBox = document.querySelector('.captcha-box');
+    const captchaScreen = document.getElementById('captchaScreen');
+    const captchaBottom = document.getElementById('captchaBottom');
+    const captchaSlider = document.getElementById('captchaSlider');
+    const captchaBtn = document.getElementById('captchaBtn');
+    const captchaError = document.getElementById('captchaError');
 
-// Replace captcha HTML dynamically
-captchaBox.innerHTML = `
-  <h1>Проверка</h1>
-  <p>Поверни изображение так, чтобы оно было ровным</p>
-  <div style="display:grid;gap:16px;">
-    <div id="captchaCircle" style="width:180px;height:180px;margin:0 auto;border-radius:50%;border:4px solid var(--lime);display:grid;place-items:center;overflow:hidden;background:#000;">
-      <img id="captchaImg" src="samolet.png" style="width:120px;">
-    <button class="captcha-btn" id="captchaBtn">Подтвердить</button>
-    <div class="captcha-error" id="captchaError"></div>
-  </div>
-`;
+    const startRotation = Math.floor(Math.random() * 220) + 70;
+    captchaBottom.style.transform = `rotate(${startRotation}deg)`;
 
-const img = document.getElementById('captchaImg');
-const slider = document.getElementById('captchaSlider');
-const btn = document.getElementById('captchaBtn');
-const error = document.getElementById('captchaError');
+    function normalizeAngle(angle) {
+      return ((angle % 360) + 360) % 360;
+    }
 
-// random rotation
-let targetRotation = Math.floor(Math.random() * 360);
-img.style.transform = `rotate(${targetRotation}deg)`;
+    function angleDistance(a, b) {
+      const diff = Math.abs(normalizeAngle(a) - normalizeAngle(b));
+      return Math.min(diff, 360 - diff);
+    }
 
-slider.addEventListener('input', () => {
-  img.style.transform = `rotate(${targetRotation - slider.value}deg)`;
-});
-
-btn.addEventListener('click', () => {
-  const diff = Math.abs(targetRotation - slider.value) % 360;
-  if (diff < 15 || diff > 345) {
-    captchaScreen.classList.add('hidden');
-    sessionStorage.setItem('jettonCaptchaPassed', '1');
-  } else {
-    error.textContent = 'Попробуй выровнять точнее';
-  }
-});
-
-if (sessionStorage.getItem('jettonCaptchaPassed') === '1') {
-  captchaScreen.classList.add('hidden');
-}
-
-// tracking clicks
-document.querySelectorAll('a').forEach((button) => {
-  button.addEventListener('click', () => {
-    console.log('CTA click:', button.href);
-  });
-});
+    captchaSlider.addEventListener('input', () => {
+      const currentRotation = startRotation - Number(captchaSlider.value);
+      captchaBottom.style.transform = `rotate(${currentRotation}deg)`;
+      captchaError.textContent = '';
     });
+
+    captchaBtn.addEventListener('click', () => {
+      const currentRotation = startRotation - Number(captchaSlider.value);
+
+      if (angleDistance(currentRotation, 0) <= 12) {
+        captchaScreen.classList.add('hidden');
+        sessionStorage.setItem('jettonCaptchaPassed', '1');
+      } else {
+        captchaError.textContent = 'Почти! Совмести части точнее.';
+      }
+    });
+
+    if (sessionStorage.getItem('jettonCaptchaPassed') === '1') {
+      captchaScreen.classList.add('hidden');
+    }
 
     document.querySelectorAll('a').forEach((button) => {
       button.addEventListener('click', () => {
